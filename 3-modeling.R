@@ -235,9 +235,9 @@ library(caret)
 # Function to print confusion matrix
 conf_matrix <- function(model, name, threshold = 0.5) {
   cat("\n===", name, "===\n")
-  predicted <- ifelse(fitted(model) >= threshold, 1, 0)
-  actual    <- model$y
-  print(confusionMatrix(factor(predicted), factor(actual)))
+  predicted <- factor(ifelse(fitted(model) >= threshold, 1, 0), levels = c(1, 0))
+  actual    <- factor(model$y, levels = c(1, 0))
+  print(confusionMatrix(predicted, actual, positive = "1"))
 }
 
 conf_matrix(M0,  "Model 0")
@@ -246,3 +246,131 @@ conf_matrix(M1,  "Model 1")
 conf_matrix(M11, "Model 11")
 
 AIC(M0, M00, M1, M11)
+
+
+conf_full <- function(model, name, threshold = 0.5) {
+  predicted <- factor(ifelse(fitted(model) >= threshold, 1, 0), levels = c(1, 0))
+  actual    <- factor(model$y, levels = c(1, 0))
+  cm        <- confusionMatrix(predicted, actual)
+  
+  tibble(
+    Model       = name,
+    TN          = cm$table[2, 2],
+    FP          = cm$table[1, 2],
+    FN          = cm$table[2, 1],
+    TP          = cm$table[1, 1],
+    Accuracy    = round(cm$overall["Accuracy"], 3),
+    Sensitivity = round(cm$byClass["Sensitivity"], 3),
+    Specificity = round(cm$byClass["Specificity"], 3),
+    PPV         = round(cm$byClass["Pos Pred Value"], 3),
+    NPV         = round(cm$byClass["Neg Pred Value"], 3)
+  )
+}
+
+conf_full_table <- bind_rows(
+  conf_full(M0,  "Model 0"),
+  conf_full(M00, "Model 00"),
+  conf_full(M1,  "Model 1"),
+  conf_full(M11, "Model 11")
+)
+
+print(conf_full_table)
+
+# find wave weights where N is the highest - that wave weights should be used #### 
+
+cronos %>% 
+  select(contains("weight")) %>%
+  mutate(across(
+  .cols = c(w1weight:w5weight),
+  .fns = ~ !is.na(.x),
+  .names = "{.col}_na"
+)) %>% 
+  select(contains("_na")) %>% 
+  frq() # max is 85.96% for w2weight
+
+# final model MFIN for dathaton, w2weight and income #### 
+
+c_fin_w2weight <- c_fin[!is.na(c_fin$w2weight), ]
+
+## weights from wave 2 #####
+design2 <- svydesign(
+  ids = ~1,
+  weights = ~w2weight,
+  data = c_fin_w2weight
+)
+
+## run MFIN #### 
+
+MFIN <- svyglm(
+  TMD ~ factor(CTR) + 
+    # control variables
+    GND +
+    EDY +
+    AGE +
+    HIN +
+    UNA +
+    # social media use variables:
+    SML +
+    SMS +
+    SMR +
+    SMP +
+    SMM +
+    SMU +
+    SMF +
+    # general use of digital devices and general topics related to science and technology variables
+    AUD +
+    DTP +
+    MAS +
+    # technological adaptation variables
+    ADA +
+    AIR +
+    # attitude to new technologies variable
+    CTA +
+    # trust variables
+    STR +
+    GTR,
+  design = design1,
+  family = quasibinomial()
+)
+
+summary(MFIN)
+
+# model stats final #### 
+
+tab_model(M0, M00, M1, M11, MFIN, pred.labels = FALSE, dv.labels = c("M0", "M00", "M1", "M11", "MFIN"))
+
+plot_models(M0, M00, M1, M11, MFIN, 
+            m.labels = c("Model 0", "Model 00", "Model 1", "Model 11", "MFIN"), 
+            p.shape = TRUE)
+
+# ggsave("plot_models_fin.png", width = 20, height = 50, units = "cm")
+
+
+# Function to extract stats for each model
+
+# Combine into one table
+table_stats_fin <- bind_rows(
+  model_stats(M0,  "Model 0"),
+  model_stats(M00, "Model 00"),
+  model_stats(M1,  "Model 1"),
+  model_stats(M11, "Model 11"),
+  model_stats(MFIN, "Final w2weights")
+)
+
+table_stats_fin
+
+plot_model(MFIN, sort.est = TRUE, auto.label = F, title = "MFIN", show.values = T, show.p = T)
+tab_model(MFIN, pred.labels = F, file = "MFIN_tab.html")
+
+
+fin_conf_full_table <- bind_rows(
+  conf_full(M0,  "Model 0"),
+  conf_full(M00, "Model 00"),
+  conf_full(M1,  "Model 1"),
+  conf_full(M11, "Model 11"), 
+  conf_full(MFIN, "Final model")
+)
+
+print(fin_conf_full_table)
+
+
