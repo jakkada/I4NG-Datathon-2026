@@ -71,8 +71,6 @@ exp(cbind(OR = coef(M0), confint(M0)))
 
 #TODO nagelkerke R2 and confusion matrix + AUC 
 
-#TODO mean weight across all waves - add in data preparation 
-
 # M1 with Household total net income decile HIN #### 
 
 M1 <- svyglm(
@@ -159,8 +157,6 @@ summary(M00)
 
 exp(cbind(OR = coef(M00), confint(M00)))
 
-#TODO nagelkerke R2 and confusion matrix + AUC 
-
 # M11 as M1 = with Household total net income decile HIN, mean weights across all waves #### 
 
 M11 <- svyglm(
@@ -201,9 +197,52 @@ summary(M11)
 exp(cbind(OR = coef(M11), confint(M11)))
 
 
-
+# model stats #### 
 
 tab_model(M0, M00, M1, M11, pred.labels = FALSE, dv.labels = c("M0", "M00", "M1", "M11"))
 
 plot_models(M0, M00, M1, M11, 
-            m.labels = c("Model 0", "Model 00", "Model 1", "Model 11"), p.shape = TRUE)
+            m.labels = c("Model 0", "Model 00", "Model 1", "Model 11"), 
+            p.shape = TRUE)
+
+# ggsave("plot_models.png", width = 20, height = 50, units = "cm")
+
+
+# Function to extract stats for each model
+
+library(pROC)
+model_stats <- function(model, name) {
+  tibble(
+    Model = name,
+    N = nobs(model),
+    Nagelkerke_R2 = round(psrsq(model, method = "Nagelkerke"), 3),
+    AUC = round(auc(roc(model$y, fitted(model))), 3)
+  )
+}
+
+# Combine into one table
+table_stats <- bind_rows(
+  model_stats(M0,  "Model 0"),
+  model_stats(M00, "Model 00"),
+  model_stats(M1,  "Model 1"),
+  model_stats(M11, "Model 11")
+)
+
+print(table_stats)
+
+library(caret)
+
+# Function to print confusion matrix
+conf_matrix <- function(model, name, threshold = 0.5) {
+  cat("\n===", name, "===\n")
+  predicted <- ifelse(fitted(model) >= threshold, 1, 0)
+  actual    <- model$y
+  print(confusionMatrix(factor(predicted), factor(actual)))
+}
+
+conf_matrix(M0,  "Model 0")
+conf_matrix(M00, "Model 00")
+conf_matrix(M1,  "Model 1")
+conf_matrix(M11, "Model 11")
+
+AIC(M0, M00, M1, M11)
