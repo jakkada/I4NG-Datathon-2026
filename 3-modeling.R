@@ -11,7 +11,7 @@ c_fin <- c_fin %>% mutate(w1to5weight_mean = rowMeans(across(w1weight:w5weight),
 c_fin_w1weight <- c_fin[!is.na(c_fin$w1weight), ]
 c_fin_w1to5 <- c_fin[!is.na(c_fin$w1to5weight_mean), ]
 
-sjPlot::view_df(c_fin, show.frq = TRUE, show.prc = TRUE, show.na = TRUE, file = "c_fin_view.html")
+# sjPlot::view_df(c_fin, show.frq = TRUE, show.prc = TRUE, show.na = TRUE, file = "c_fin_view.html")
 
 # define the survey design #### 
 
@@ -69,7 +69,6 @@ summary(M0)
 
 exp(cbind(OR = coef(M0), confint(M0)))
 
-#TODO nagelkerke R2 and confusion matrix + AUC 
 
 # M1 with Household total net income decile HIN #### 
 
