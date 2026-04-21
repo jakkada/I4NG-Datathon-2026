@@ -8,6 +8,8 @@ library(survey)
 
 c_fin <- c_fin[!is.na(c_fin$w1weight), ]
 
+sjPlot::view_df(c_fin, show.frq = TRUE, show.prc = TRUE, show.na = TRUE, file = "c_fin_view.html")
+
 # define the survey design #### 
 design <- svydesign(
   ids = ~1,
@@ -54,8 +56,13 @@ summary(M0)
 
 exp(cbind(OR = coef(M0), confint(M0)))
 
+#TODO nagelkerke R2 and confusion matrix + AUC 
+
 
 # two models without countries #### 
+
+#TODO add M1 model with income and compare N 
+#TODO mean weight across all waves - add in data preparation 
 
 ## limited predictors M1, keep more observations #### 
 
