@@ -1,5 +1,5 @@
-install.packages(c("sjlabelled","sjPlot","sjmisc","DataExplorer"))
-install.packages("psych")
+# install.packages(c("sjlabelled","sjPlot","sjmisc","DataExplorer"))
+# install.packages("psych")
 library(sjlabelled)
 library(sjPlot)
 library(sjmisc)
@@ -48,8 +48,8 @@ c_selected <- cronos %>% select( # merging variables
                                 w4dq11,
                                 # trust variables
                                 w1sq16,
-                                # weighing variable 
-                                w1weight)
+                                # weighing variables 
+                                w1weight, w2weight, w3weight, w4weight, w5weight)
 
 
 # filtering ####
@@ -206,7 +206,7 @@ analysis_var_names <- c_mutated %>%
 c_mutated <- c_mutated %>% 
   mutate(id = paste(idno, cntry, mode, essround, sep = "_")) # make unique ids
 
-c_fin <- c_mutated %>% select(id, analysis_var_names, w1weight)
+c_fin <- c_mutated %>% select(id, analysis_var_names, w1weight, w2weight, w3weight, w4weight, w5weight)
 
 # haven::write_sav(data = c_fin, path = "data/cronos3_gotowe_hackaton.sav")
 ## save file 
