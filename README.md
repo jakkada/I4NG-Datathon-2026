@@ -20,6 +20,8 @@ This project investigates what influences Europeans' support for teaching critic
 2.  Integrate critical thinking into STEM curricula and technology literacy into civic education.
 3.  Limit youngest users' social media access and pair relaxed access over time with responsible engagement training.
 
+Full policy brief is [available here](https://github.com/jakkada/I4NG-Datathon-2026/blob/main/4-policy-brief-critical-thinking.pdf).
+
 ## Interactive visualisation
 
 An interactive plot covering all 21 studied predictors, including country effects [is available](https://rawcdn.githack.com/jakkada/I4NG-Datathon-2026/fd1b6cf441be7ba63a5edc4665fa16d0f188ac5a/supl_p3_interactive.html).
