@@ -1,6 +1,7 @@
 # ============================== read me first ================================
 # reproducibility note: #### 
 # to run this script you need to source 2-preparation.R
+# model used for the policy brief was MFIN
 # =============================================================================
 
 
@@ -64,10 +65,9 @@ M0 <- svyglm(
   family = quasibinomial()
 )
 
-summary(M0)
-
-
-exp(cbind(OR = coef(M0), confint(M0)))
+# summary(M0)
+# 
+# exp(cbind(OR = coef(M0), confint(M0)))
 
 
 # M1 with Household total net income decile HIN #### 
@@ -104,18 +104,11 @@ M1 <- svyglm(
   family = quasibinomial()
 )
 
-summary(M1)
-
-
-exp(cbind(OR = coef(M1), confint(M1)))
-
-
-
-
-tab_model(M0, M1, pred.labels = FALSE, dv.labels = c("M0", "M1"))
-
-
-
+# summary(M1)
+# 
+# exp(cbind(OR = coef(M1), confint(M1)))
+# 
+# tab_model(M0, M1, pred.labels = FALSE, dv.labels = c("M0", "M1"))
 
 # M00 as M0 = without income, but mean weights across all waves for even higher N #### 
 
@@ -150,11 +143,10 @@ M00 <- svyglm(
   design = design_mean,
   family = quasibinomial()
 )
-
-summary(M00)
-
-
-exp(cbind(OR = coef(M00), confint(M00)))
+# 
+# summary(M00)
+# 
+# exp(cbind(OR = coef(M00), confint(M00)))
 
 # M11 as M1 = with Household total net income decile HIN, mean weights across all waves #### 
 
@@ -190,19 +182,18 @@ M11 <- svyglm(
   family = quasibinomial()
 )
 
-summary(M11)
-
-
-exp(cbind(OR = coef(M11), confint(M11)))
+# summary(M11)
+# 
+# exp(cbind(OR = coef(M11), confint(M11)))
 
 
 # model stats #### 
 
-tab_model(M0, M00, M1, M11, pred.labels = FALSE, dv.labels = c("M0", "M00", "M1", "M11"))
-
-plot_models(M0, M00, M1, M11, 
-            m.labels = c("Model 0", "Model 00", "Model 1", "Model 11"), 
-            p.shape = TRUE)
+# tab_model(M0, M00, M1, M11, pred.labels = FALSE, dv.labels = c("M0", "M00", "M1", "M11"))
+# 
+# plot_models(M0, M00, M1, M11, 
+#             m.labels = c("Model 0", "Model 00", "Model 1", "Model 11"), 
+#             p.shape = TRUE)
 
 # ggsave("plot_models.png", width = 20, height = 50, units = "cm")
 
@@ -227,7 +218,6 @@ table_stats <- bind_rows(
   model_stats(M11, "Model 11")
 )
 
-print(table_stats)
 
 library(caret)
 
@@ -239,12 +229,12 @@ conf_matrix <- function(model, name, threshold = 0.5) {
   print(confusionMatrix(predicted, actual, positive = "1"))
 }
 
-conf_matrix(M0,  "Model 0")
-conf_matrix(M00, "Model 00")
-conf_matrix(M1,  "Model 1")
-conf_matrix(M11, "Model 11")
+# conf_matrix(M0,  "Model 0")
+# conf_matrix(M00, "Model 00")
+# conf_matrix(M1,  "Model 1")
+# conf_matrix(M11, "Model 11")
 
-AIC(M0, M00, M1, M11)
+# AIC(M0, M00, M1, M11)
 
 
 conf_full <- function(model, name, threshold = 0.5) {
@@ -273,19 +263,19 @@ conf_full_table <- bind_rows(
   conf_full(M11, "Model 11")
 )
 
-print(conf_full_table)
+
 
 # find wave weights where N is the highest - that wave weights should be used #### 
 
-cronos %>% 
-  select(contains("weight")) %>%
-  mutate(across(
-  .cols = c(w1weight:w5weight),
-  .fns = ~ !is.na(.x),
-  .names = "{.col}_na"
-)) %>% 
-  select(contains("_na")) %>% 
-  frq() # max is 85.96% for w2weight
+# cronos %>% 
+#   select(contains("weight")) %>%
+#   mutate(across(
+#   .cols = c(w1weight:w5weight),
+#   .fns = ~ !is.na(.x),
+#   .names = "{.col}_na"
+# )) %>% 
+#   select(contains("_na")) %>% 
+#   frq() # max is 85.96% for w2weight
 
 # final model MFIN for dathaton, w2weight and income #### 
 
@@ -332,15 +322,15 @@ MFIN <- svyglm(
   family = quasibinomial()
 )
 
-summary(MFIN)
+# summary(MFIN)
 
 # model stats final #### 
 
-tab_model(M0, M00, M1, M11, MFIN, pred.labels = FALSE, dv.labels = c("M0", "M00", "M1", "M11", "MFIN"))
-
-plot_models(M0, M00, M1, M11, MFIN, 
-            m.labels = c("Model 0", "Model 00", "Model 1", "Model 11", "MFIN"), 
-            p.shape = TRUE)
+# tab_model(M0, M00, M1, M11, MFIN, pred.labels = FALSE, dv.labels = c("M0", "M00", "M1", "M11", "MFIN"))
+# 
+# plot_models(M0, M00, M1, M11, MFIN, 
+#             m.labels = c("Model 0", "Model 00", "Model 1", "Model 11", "MFIN"), 
+#             p.shape = TRUE)
 
 # ggsave("plot_models_fin.png", width = 20, height = 50, units = "cm")
 
@@ -356,10 +346,10 @@ table_stats_fin <- bind_rows(
   model_stats(MFIN, "Final w2weights")
 )
 
-table_stats_fin
 
-plot_model(MFIN, sort.est = TRUE, auto.label = F, title = "MFIN", show.values = T, show.p = T)
-tab_model(MFIN, pred.labels = F, file = "MFIN_tab.html")
+
+# plot_model(MFIN, sort.est = TRUE, auto.label = F, title = "MFIN", show.values = T, show.p = T)
+# tab_model(MFIN, pred.labels = F, file = "MFIN_tab.html")
 
 
 fin_conf_full_table <- bind_rows(
@@ -370,6 +360,6 @@ fin_conf_full_table <- bind_rows(
   conf_full(MFIN, "Final model")
 )
 
-print(fin_conf_full_table)
+
 
 

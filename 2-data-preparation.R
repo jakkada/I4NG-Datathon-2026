@@ -64,11 +64,11 @@ c_mutated <- c_selected %>%
   mutate(no_int_access_or_use = case_when(
     netusoft == 1 | w1dq2_7 == 1 ~ 1, .default = 0))
 
-frq(c_mutated$no_int_access_or_use) # value 1 is 467 resp. 
+# frq(c_mutated$no_int_access_or_use) # value 1 is 467 resp. 
 
 c_mutated <- c_mutated %>% filter(no_int_access_or_use==0)
 
-tab_xtab(c_selected$netusoft, c_selected$w1dq2_7, show.na = T)
+# tab_xtab(c_selected$netusoft, c_selected$w1dq2_7, show.na = T)
 # 441 + 189 - 163 = 467 # these resp. should be excluded
 
 
@@ -127,9 +127,8 @@ c_mutated <- c_mutated %>%
   
   # Sum index for intentionally avoiding using digital devices in various situations
   mutate(
-    AUD = rowSums(across(w5dq1_1:w5dq1_8), na.rm = TRUE) # --> UWAGA: w sumie to nie wiem, czy ta 8 jest tutaj potrzebna
+    AUD = rowSums(across(w5dq1_1:w5dq1_8), na.rm = TRUE) 
   ) %>% 
-  
   # Recoding other variables
   mutate(
     SMS = if_else(w3dq44 %in% 1:3, 1, 0),   # How often scroll through social media feeds
@@ -148,8 +147,6 @@ c_mutated <- c_mutated %>%
     MAS = w1sq4_1  # Topics taught more in compulsory education: Maths and sciences
   )
 
-# --> UWAGA: obliczyłem alfę. ostatnia zmienna jest nagatywnie skorelowany z pozostałymi i obniża jej wartość, ale nawet
-# bez niej alfa wynosi 0,59. Niemniej, imo to nie jest skala do której używa się alfy Cronbacha. Odpuściłbym ją
 # a <- alpha(c_mutated[, paste0("w5dq1_", 1:8)]) 
 # a$total$raw_alpha
 # a$alpha.drop
@@ -158,7 +155,7 @@ c_mutated <- c_mutated %>%
 
 a <- alpha(c_mutated[, c("pplfair","pplhlp","ppltrst")]) # Alpha 0,76; warrning can be ignored - it applies to
                                                         # frequencies not alpha itself
-a$total$raw_alpha
+# a$total$raw_alpha
 
 # set descriptive variable labels #### 
 
