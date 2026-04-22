@@ -22,16 +22,20 @@ This project investigates what influences Europeans' support for teaching critic
 
 ## Interactive visualisation
 
-An interactive plot covering all 21 studied predictors, including country effects [is available](https://rawcdn.githack.com/jakkada/I4NG-Datathon-2026/fd1b6cf441be7ba63a5edc4665fa16d0f188ac5a/supl_p3_interactive.html)
+An interactive plot covering all 21 studied predictors, including country effects [is available](https://rawcdn.githack.com/jakkada/I4NG-Datathon-2026/fd1b6cf441be7ba63a5edc4665fa16d0f188ac5a/supl_p3_interactive.html).
 
 ## Data sources
 
--   [CRONOS3 Wave 1](https://doi.org/10.21338/cronos3-w1)
--   [ESS10](https://doi.org/10.21338/ess10e03_2)
--   [ESS10sc](https://doi.org/10.21338/ess10sce03_1)
--   [ESS11](https://doi.org/10.21338/ess11e03_0)
+- [CRONOS3 Wave 1](https://doi.org/10.21338/cronos3-w1)
+- [CRONOS3 Wave 2](https://doi.org/10.21338/cronos3-w2)
+- [CRONOS3 Wave 3](https://doi.org/10.21338/cronos3-w3)
+- [CRONOS3 Wave 4](https://doi.org/10.21338/cronos3-w4)
+- [CRONOS3 Wave 5](https://doi.org/10.21338/cronos3-w5)
+- [ESS10](https://doi.org/10.21338/ess10e03_3)
+- [ESS10sc](https://doi.org/10.21338/ess10sce03_2)
+- [ESS11](https://doi.org/10.21338/ess11e04_1)
 
-Countries covered: Austria, Belgium, Czechia, Finland, France, Hungary, Iceland, Poland, Portugal, Slovenia, and the United Kingdom. Total unweighted sample: n = 4,906.
+Countries covered: Austria, Belgium, Czechia, Finland, France, Hungary, Iceland, Poland, Portugal, Slovenia, and the United Kingdom. Total unweighted sample: n = 10,081.
 
 ## Reproducibility
 

@@ -126,8 +126,8 @@ p2 <- ggplot(plot_data, aes(x = label, y = pct, color = pct > 0)) +
   labs(
     y = "Change in likelihood (%)",
     x = "",
-    subtitle = "Negative view of technology's future and reacting to social media\nare the strongest positive drivers; preferring more STEM education means\n lower support for critical thinking, media and democracy education.",
-    caption = "Source: Own elaboration based on CRONOS3 and ESS10-11 survey data.\nDots represent percentage change in likelihood; lines indicate uncertainty."
+    subtitle = "Negative view of technology's future and reacting to social media\nare the strongest positive drivers; preferring more STEM education means\nlower support for critical thinking, media and democracy education.",
+    caption = "Source: Own elaboration based on CRONOS and ESS survey data.\nDots represent percentage change in likelihood; lines indicate uncertainty."
   ) +
   theme_minimal()
 
@@ -142,11 +142,11 @@ Click to see **[an interactive plot for 21 studied factors](https://rawcdn.githa
 library(plotly)
 
 lbl_full <- c(
-  EDY = "Years of education completed",
-  SMS = "Scrolls social media at least daily",
-  SMR = "Reacts to social media at least daily",
-  DTP = "Wants more: Digital tools & programming",
-  MAS = "Wants more: Maths and sciences",
+  EDY = "Years of education",
+  SMS = "Scrolls soc. media at least daily",
+  SMR = "Reacts to soc. media at least daily",
+  DTP = "Taught more: Digital tools & programming",
+  MAS = "Taught more: Maths and sciences",
   CTA = "Negative view of technology's future",
   STR = "Trust in scientists",
   GTR = "General trust in others",
@@ -280,7 +280,7 @@ Next are trust in scientists and general trust in others, which increase the lik
 \begin{tcolorbox}[greenbox]
 Recommendation 1:
 
-\textbf{Involve authorities from expert and scientific communities in debates on technology and its impact on everyday life, including both positive and negative examples}
+\textbf{Involve authorities from expert and scientific communities in debates on technology and its impact on everyday life. Include both positive and negative examples}
 \end{tcolorbox}
 \end{center}
 
@@ -298,7 +298,7 @@ Recommendation 2:
 
 ## Engagement with Social Media Matters
 
-Scrolling through social media feeds at least once a day \textbf{decreases by 25\%} support for increased critical thinking, media and democracy education. By contrast, reacting to social media content (e.g. commenting) at least once a day \textbf{increases it by 44\%}. Contributing to social media raises awareness of the need for civic competencies, while passive consumption of its content decreases it.
+Scrolling through social media feeds at least once a day \textbf{decreases by 25\%} likelihood of support for critical thinking, media and democracy education. By contrast, reacting to social media content (e.g. commenting) at least once a day \textbf{increases it by 44\%}. Reacting to social media raises awareness of the need for civic competencies, while passive consumption of its content decreases it.
 
 \begin{center}
 \begin{tcolorbox}[greenbox]
@@ -310,16 +310,24 @@ Recommendation 3:
 
 ## The Importance of Country Context
 
-All previous results hold regardless of country context. Nevertheless, countries differ significantly in their support for critical thinking, media and democracy education. \textbf{In Hungary the likelihood of support is 73\% lower, in Czechia 72\% lower, and in Poland and Portugal 71\% lower than in Austria, the reference country.} This indicates the importance of national context.
+All previous results hold regardless of country context. Nevertheless, countries differ significantly in their support for critical thinking, media and democracy education. \textbf{In Hungary the likelihood of support is 73\% lower, in Czechia 72\% lower, and in Poland and Portugal 71\% lower than in Austria, the reference country.}
 
 ### Analytical note
 
 \begin{flushleft}
 \footnotesize
 
-We studied 21 factors of support for critical thinking, media and democracy education. Factors with no meaningful impact included: gender, age, household income, internet use frequency, posting on social media, social media attitudes, intentional digital avoidance, and ability to recognize AI-generated content.
+We studied 21 factors of support for critical thinking, media and democracy education. Factors with no meaningful impact included: gender, age, household income, internet use frequency, posting on social media, social media attitudes, intentional digital avoidance, and ability to recognize AI-generated content. Logistic regression with country fixed effects was used. 
 
-Open data from CRONOS3 Wave 1 (\url{https://doi.org/10.21338/cronos3-w1}), ESS10 (\url{https://doi.org/10.21338/ess10e03_2}), ESS10sc (\url{https://doi.org/10.21338/ess10sce03_1}), and ESS11 (\url{https://doi.org/10.21338/ess11e03_0}) represent countries: Austria, Belgium, Czechia, Finland, France, Hungary, Iceland, Poland, Portugal, Slovenia, and the United Kingdom. A total unweighted sample of \(n = 4{,}906\) was used in the analysis.
+Open data from CRONOS3 Waves 1--5
+(\url{https://doi.org/10.21338/cronos3-w1},
+\url{https://doi.org/10.21338/cronos3-w2},
+\url{https://doi.org/10.21338/cronos3-w3},
+\url{https://doi.org/10.21338/cronos3-w4},
+\url{https://doi.org/10.21338/cronos3-w5}),
+ESS10 (\url{https://doi.org/10.21338/ess10e03_3}),
+ESS10sc (\url{https://doi.org/10.21338/ess10sce03_2}),
+and ESS11 (\url{https://doi.org/10.21338/ess11e04_1}) was used in the analysis. A total unweighted sample was \(n = 10{,}081\).
 
 GNU R code to reproduce our analysis are openly available at: \url{https://github.com/jakkada/I4NG-Datathon-2026}
 \normalsize

@@ -4,6 +4,5 @@
 .Ruserdata
 *.sav
 .DS_Store
-*.png
 *.log
 /working
