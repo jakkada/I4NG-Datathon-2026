@@ -11,7 +11,7 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 
 source("1-load-data.R")
-source("2-preparation.R")
+source("2-data-preparation.R")
 source("3-modeling.R")
 
 library(RColorBrewer)
@@ -24,7 +24,7 @@ library(sjPlot)
 
 ## Education against Technological Intrusion
 
-The ever-accelerating technological development brings convenience and entertainment, but it also creates new avenues for exploitation and manipulation. It may threaten democracy through the spread of unchecked, misleading, and AI-driven information on the internet, especially on social media. As technology is part of everyday life, it cannot simply be rejected or ignored; it needs to be addressed through education so that people can use it competently and understand its limitations and impact on society.
+The ever-accelerating digital technology development brings convenience and entertainment, but creates new avenues for exploitation and manipulation. It may threaten democracy through the spread of fake or misleading information on the Internet. As digital technology is part of everyday life, it it needs to be addressed through education so that people can use it competently and understand its limitations and impact on society.
 
 \begin{center}
 \begin{tcolorbox}[orangebox]
@@ -57,67 +57,237 @@ non_sig_MFIN <- c(
 )
 
 lbl_MFIN <- c(
-  EDY = "Years of education\ncompleted",
-  SMS = "Scrolls social media\nat least daily",
-  SMR = "Reacts to social media\nat least daily",
-  DTP = "Wants more: Digital\ntools & programming",
-  MAS = "Wants more: Maths\nand sciences",
-  CTA = "Expects negative societal\nchange from technology",
+  EDY = "Years of education",
+  SMS = "Scrolls soc. media\nat least daily",
+  SMR = "Reacts to soc. media\nat least daily",
+  DTP = "Taught more: Digital\ntools & programming",
+  MAS = "Taught more: Maths\nand sciences",
+  CTA = "Negative view of\ntechnology's future",
   STR = "Trust in scientists",
   GTR = "General trust\nin others"
 )
 
-p1 <- plot_model(
-  MFIN,
-  show.values = T,
-  value.offset = 0.4,
-  colors = "Set2",
-  rm.terms = non_sig_MFIN,
-  sort.est = T,
-  axis.labels = "",
-  axis.lim = c(0.3, 2.2),
-  title = ""
-) +
-  labs(
-    subtitle = "Expecting negative societal change from technology and reacting to social media\nare the strongest positive drivers; preferring more STEM education is associated\nwith lower support for critical thinking, media and democracy education.",
-    caption = "Source: Own elaboration based on CRONOS3 and ESS10-11 survey data.\nDots represent odds ratio values; lines indicate the uncertainty of the results."
-  ) +
-  theme_minimal() +
-  geom_hline(yintercept = 1, linetype = "dashed", color = "darkgray", alpha = 0.6) +
-  annotate("text", x = 3.8, y = 0.85,
-           label = "Odds Ratio of 1 = no effect", color = "darkgray", alpha = 0.6) +
-  annotate("text", x = 0.7, y = 0.55,
-           label = "Below 1 = negative effect", color = "#66C2A5", alpha = 0.6) +
-  annotate("text", x = 4.5, y = 2.1,
-           label = "Above 1 = positive effect", color = "#FC8D62", alpha = 0.6) +
-  scale_x_discrete(labels = lbl_MFIN)
+# p1 <- plot_model(
+#   MFIN,
+#   show.values = T,
+#   value.offset = 0.4,
+#   colors = "Set2",
+#   rm.terms = non_sig_MFIN,
+#   sort.est = T,
+#   axis.labels = "",
+#   axis.lim = c(0.3, 2.2),
+#   title = ""
+# ) +
+#   labs(
+#     subtitle = "Negative view of technology's future and reacting to social media\nare the strongest positive drivers; preferring more STEM education means\n lower support for critical thinking, media and democracy education.",
+#     caption = "Source: Own elaboration based on CRONOS3 and ESS10-11 survey data.\nDots represent odds ratio values; lines indicate the uncertainty of the results."
+#   ) +
+#   theme_minimal() +
+#   geom_hline(yintercept = 1, linetype = "dashed", color = "darkgray", alpha = 0.6) +
+#   annotate("text", x = 3, y = 0.3,
+#            label = "Negative effect", color = "#66C2A5", alpha = 0.6) +
+#   annotate("text", x = 6, y = 3,
+#            label = "Positive effect", color = "#FC8D62", alpha = 0.6) +
+#   scale_x_discrete(labels = lbl_MFIN)
+# 
+# plot(p1)
 
-plot(p1)
+# extract coefficients from model
+plot_data <- data.frame(
+  term = names(coef(MFIN)),
+  or = exp(coef(MFIN)),
+  lower = exp(confint(MFIN)[, 1]),
+  upper = exp(confint(MFIN)[, 2])
+) %>%
+  filter(term %in% names(lbl_MFIN)) %>%
+  mutate(
+    pct = (or - 1) * 100,
+    lower_pct = (lower - 1) * 100,
+    upper_pct = (upper - 1) * 100,
+    label = lbl_MFIN[term],
+    label = factor(label, levels = label[order(pct)])
+  )
+
+p2 <- ggplot(plot_data, aes(x = label, y = pct, color = pct > 0)) +
+  geom_point(size = 6) +
+  geom_errorbar(aes(ymin = lower_pct, ymax = upper_pct), width = 0.2) +
+  geom_label(
+  aes(label = round(pct)),
+  hjust = 0.5,
+  vjust = 0.5,
+  size = 2) +
+  annotate("text", x = 4, y = -32,
+           label = "Negative effects", color = "#66C2A5", alpha = 0.6) +
+  annotate("text", x = 6, y = 71,
+           label = "Positive effects", color = "#FC8D62", alpha = 0.6) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "darkgray", alpha = 0.6) +
+  coord_flip() +
+  scale_color_manual(values = c("#66C2A5", "#FC8D62"), guide = "none") +
+  labs(
+    y = "Change in likelihood (%)",
+    x = "",
+    subtitle = "Negative view of technology's future and reacting to social media\nare the strongest positive drivers; preferring more STEM education means\n lower support for critical thinking, media and democracy education.",
+    caption = "Source: Own elaboration based on CRONOS3 and ESS10-11 survey data.\nDots represent percentage change in likelihood; lines indicate uncertainty."
+  ) +
+  theme_minimal()
+
+plot(p2)
 ```
 
-~This work is licensed under CC BY 4.0. To view a copy of this license, visit [creativecommons.org/licenses/by/4.0](https://creativecommons.org/licenses/by/4.0/)~
+\small This work is licensed under CC BY 4.0. To view a copy of this license, visit [creativecommons.org/licenses/by/4.0](https://creativecommons.org/licenses/by/4.0/)
 
 \begin{center}
-\includegraphics[width=44mm]{by.png}
+\includegraphics[width=24mm]{by.png}
 \end{center}
+```{r supl-plot message=FALSE}
+library(plotly)
+
+lbl_full <- c(
+  EDY = "Years of education completed",
+  SMS = "Scrolls social media at least daily",
+  SMR = "Reacts to social media at least daily",
+  DTP = "Wants more: Digital tools & programming",
+  MAS = "Wants more: Maths and sciences",
+  CTA = "Negative view of technology's future",
+  STR = "Trust in scientists",
+  GTR = "General trust in others",
+  GND = "Gender (female)",
+  AGE = "Age",
+  HIN = "Household income decile",
+  UNA = "Uses internet almost all the time",
+  SML = "Limits access to own social media",
+  SMP = "Posts on social media at least weekly",
+  SMM = "Social media exposes to misinformation",
+  SMU = "Social media undermines privacy",
+  SMF = "Social media prevents work/family duties",
+  AUD = "Intentional digital avoidance",
+  ADA = "Adapts well to technological advancements",
+  AIR = "Can recognize AI-generated content",
+  `factor(CTR)Belgium` = "Country: Belgium",
+  `factor(CTR)Czechia` = "Country: Czechia",
+  `factor(CTR)Finland` = "Country: Finland",
+  `factor(CTR)France` = "Country: France",
+  `factor(CTR)United Kingdom` = "Country: United Kingdom",
+  `factor(CTR)Hungary` = "Country: Hungary",
+  `factor(CTR)Iceland` = "Country: Iceland",
+  `factor(CTR)Poland` = "Country: Poland",
+  `factor(CTR)Portugal` = "Country: Portugal",
+  `factor(CTR)Slovenia` = "Country: Slovenia"
+)
+
+brief_predictors <- c("EDY", "SMS", "SMR", "DTP", "MAS", "CTA", "STR", "GTR")
+
+plot_data_full <- data.frame(
+  term = names(coef(MFIN)),
+  or = exp(coef(MFIN)),
+  lower = exp(confint(MFIN)[, 1]),
+  upper = exp(confint(MFIN)[, 2])
+) %>%
+  filter(term %in% names(lbl_full)) %>%
+  mutate(
+    pct = (or - 1) * 100,
+    lower_pct = (lower - 1) * 100,
+    upper_pct = (upper - 1) * 100,
+    label = lbl_full[term],
+    significant = !(lower_pct < 0 & upper_pct > 0),
+    group = case_when(
+      grepl("Country", lbl_full[term]) ~ "Country (ref: Austria)",
+      term %in% brief_predictors ~ "Discussed in brief",
+      TRUE ~ "Tested, not discussed"
+    ),
+    label = factor(label, levels = label[order(pct)]), 
+    point_color = if_else(pct > 0, "#FC8D62", "#66C2A5")
+  )
+
+shape_map <- c(
+  "Discussed in brief" = 16,       # circle
+  "Tested, not discussed" = 15,    # square
+  "Country (ref: Austria)" = 17    # triangle
+)
+
+
+p3_gg <- ggplot(plot_data_full,
+                aes(x = label, y = pct,
+                    shape = group,
+                    text = paste0(
+                      "<b>", label, "</b><br>",
+                      "Change in likelihood: ", round(pct), "%<br>",
+                      "95% CI: [", round(lower_pct), "%, ", round(upper_pct), "%]<br>",
+                      if_else(significant, "Statistically significant", "Not significant")
+                    ))) +
+  geom_point(size = 3, color = plot_data_full$point_color) +
+  geom_errorbar(aes(ymin = lower_pct, ymax = upper_pct), width = 0.3, color = plot_data_full$point_color) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "darkgray", alpha = 0.6) +
+  annotate("text", x = 4, y = -32,
+           label = "Negative effects", color = "#66C2A5", alpha = 0.6) +
+  annotate("text", x = 26, y = 71,
+           label = "Positive effects", color = "#FC8D62", alpha = 0.6) +
+  coord_flip() +
+#  guides(shape = guide_legend(override.aes = list(color = "gray40"))) +
+  scale_shape_manual(values = shape_map, name = "") +
+  labs(
+    title = "Support for critical thinking, media and democracy education: all predictors",
+    subtitle = "Negative view of technology's future and reacting to social media\nare the strongest positive drivers; preferring more STEM education means\nlower support for critical thinking, media and democracy education.",
+    y = "Change in likelihood (%)",
+    x = "",
+    caption = paste0(
+      "Source: Own elaboration based on CRONOS3 and ESS10-11 survey data.\n",
+      "Dots represent percentage change in likelihood; lines indicate uncertainty.\n",
+      "CC BY 4.0 \u2014 creativecommons.org/licenses/by/4.0\n",
+      "Code and data: github.com/jakkada/I4NG-Datathon-2026"
+    )
+  ) +
+  theme_minimal() +
+  theme(
+    plot.caption = element_text(hjust = 0, size = 7),
+    plot.subtitle = element_text(size = 9)
+  )
+
+p3 <- ggplotly(p3_gg, tooltip = "text") %>%
+  layout(
+    hoverlabel = list(bgcolor = "white"),
+    margin = list(l = 220, b = 100),
+    legend = list(orientation = "v", x = 1.02, y = 1, xanchor = "left")
+  )
+
+p3 <- p3 %>%
+  layout(
+    margin = list(l = 220, b = 140, r = 160),
+    annotations = list(
+      list(
+        text = "Source: CRONOS3 & ESS10-11 | CC BY 4.0 | <a href='https://github.com/jakkada/I4NG-Datathon-2026'>github.com/jakkada/I4NG-Datathon-2026</a>",
+        xref = "paper", yref = "paper",
+        x = 0, y = -0.15,
+        showarrow = FALSE,
+        font = list(size = 9, color = "gray40"),
+        align = "left",
+        xanchor = "left"
+      )
+    )
+  )
+
+
+# save as standalone html
+htmlwidgets::saveWidget(p3, "supl_p3_interactive.html", selfcontained = TRUE)
+```
 
 ## Value of Normative Orientations
 
-The most impactful factor is education: \textbf{with every completed year the likelihood of supporting more critical thinking, media and democracy education increases by 7\%}. A person who finishes high school is thus over 80\% more likely to see the value of such education than a person with no formal education. Education, which itself requires critical thinking, facilitates support for even more training of this kind.
+The most impactful factor is education: \textbf{with every completed year, the likelihood of supporting more critical thinking, media, and democracy education increases by 7\%}. A person who finishes high school is over 80\% more likely to see the value of such education than someone with no formal education.
 
-Next are trust in scientists and general trust in others, which increase the likelihood of valuing this type of education by respectively \textbf{13\% and 11\% per each step up}. Most striking, however, is the effect of views about the changes technology will bring to society. \textbf{Those who expect them to be negative are 67\% more likely to support an increase in critical thinking, media and democracy education}. Given that many factors reflecting technical competence proved non-significant, it is normative orientation — shaped by attitude to technology, trust, and education — that matters most.
+Next are trust in scientists and general trust in others, which increase the likelihood of valuing this type of education by \textbf{13\% and 11\% per each step up}. Most striking is the effect of views about the changes technology will bring to society. \textbf{Those who expect them to be negative are 67\% more likely to support an increase in critical thinking, media and democracy education}.
 
 \begin{center}
 \begin{tcolorbox}[greenbox]
 Recommendation 1:
 
-\textbf{Involve authorities from expert and scientific communities in debates on technology and its direct and indirect impact on everyday life, including both positive and negative examples (e.g. increased convenience, but also dependence).}
+\textbf{Involve authorities from expert and scientific communities in debates on technology and its impact on everyday life, including both positive and negative examples}
 \end{tcolorbox}
 \end{center}
 
 ## STEM Education Does Not Go Along with Critical Thinking, Media and Democracy
 
-The most surprising results indicate that respondents who would like to see more \textbf{"Digital tools and programming"} and \textbf{"Maths and sciences"} in compulsory education are also respectively \textbf{49\% and 35\% less likely} to support increased critical thinking, media and democracy education. Respondents appear to perceive STEM and civic-oriented education as competing paths. This may render people pursuing more technically focused education less critical towards technology's impact on society.
+The most surprising results indicate that respondents who want more \textbf{"Digital tools and programming"} and \textbf{"Maths and sciences"} in compulsory education are also respectively \textbf{49\% and 35\% less likely} to support increased critical thinking, media and democracy education. Respondents may perceive STEM and civic-oriented education as competing paths.
 
 \begin{center}
 \begin{tcolorbox}[orangebox]
@@ -129,19 +299,19 @@ Recommendation 2:
 
 ## Engagement with Social Media Matters
 
-Scrolling through social media feeds at least once a day \textbf{decreases by 25\%} support for increased critical thinking, media and democracy education. By contrast, reacting to social media content (e.g. commenting) at least once a day \textbf{increases it by 44\%}. Engaging with and indirectly contributing to social media raises awareness of the need for critical thinking and civic competencies, while simple passive consumption of its content decreases it.
+Scrolling through social media feeds at least once a day \textbf{decreases by 25\%} support for increased critical thinking, media and democracy education. By contrast, reacting to social media content (e.g. commenting) at least once a day \textbf{increases it by 44\%}. Contributing to social media raises awareness of the need for civic competencies, while passive consumption of its content decreases it.
 
 \begin{center}
 \begin{tcolorbox}[greenbox]
 Recommendation 3:
 
-\textbf{Access to social media should be limited and/or controlled among the youngest and relaxed over time, following training in how to safely and responsibly engage with it.}
+\textbf{Access to social media should be limited or controlled among the youngest and relaxed over time, following training in how to safely and responsibly engage with it.}
 \end{tcolorbox}
 \end{center}
 
 ## The Importance of Country Context
 
-All previous results hold regardless of country context. Nevertheless, all countries differ significantly in their support for critical thinking, media and democracy education compared to the reference country — Austria. In each country, support for this type of education is less likely to occur. \textbf{In Hungary the likelihood of support is 73\% lower, in Czechia 72\% lower, and in Poland and Portugal 71\% lower than in Austria.} This indicates the importance of national context, such as the quality and direction of debate about democracy, technology, politics, and civic education.
+All previous results hold regardless of country context. Nevertheless, countries differ significantly in their support for critical thinking, media and democracy education. \textbf{In Hungary the likelihood of support is 73\% lower, in Czechia 72\% lower, and in Poland and Portugal 71\% lower than in Austria, the reference country.} This indicates the importance of national context.
 
 ### Analytical note
 
@@ -152,10 +322,9 @@ We studied 21 factors of support for critical thinking, media and democracy educ
 
 Open data from CRONOS3 Wave 1 (\url{https://doi.org/10.21338/cronos3-w1}), ESS10 (\url{https://doi.org/10.21338/ess10e03_2}), ESS10sc (\url{https://doi.org/10.21338/ess10sce03_1}), and ESS11 (\url{https://doi.org/10.21338/ess11e03_0}) represent countries: Austria, Belgium, Czechia, Finland, France, Hungary, Iceland, Poland, Portugal, Slovenia, and the United Kingdom. A total unweighted sample of \(n = 4{,}906\) was used in the analysis.
 
-\href{https://github.com/zremek/I4NG-Hackathon-2025/tree/main/supplementary_tables}{Supplementary tables} and GNU R code to reproduce our analysis are openly available at: \url{https://github.com/zremek/I4NG-Hackathon-2025}
+GNU R code to reproduce our analysis are openly available at: \url{https://github.com/jakkada/I4NG-Datathon-2026}
 \normalsize
 \end{flushleft}
 
-~**Authors**: Jakub Adamski, [jakub.adamski\@uni.lodz.pl](mailto:jakub.adamski@uni.lodz.pl) Remigiusz Żulicki, [remigiusz.zulicki\@uni.lodz.pl](mailto:remigiusz.zulicki@uni.lodz.pl)~
-
-~[Faculty of Economics and Sociology](https://www.eksoc.uni.lodz.pl/en/about-the-faculty/get-to-know-eksoc), University of Lodz, Poland~
+**Authors**: Jakub Adamski, [jakub.adamski\@uni.lodz.pl](mailto:jakub.adamski@uni.lodz.pl) & Remigiusz Żulicki, [remigiusz.zulicki\@uni.lodz.pl](mailto:remigiusz.zulicki@uni.lodz.pl)
+from [Faculty of Economics and Sociology](https://www.eksoc.uni.lodz.pl/en/about-the-faculty/get-to-know-eksoc), University of Lodz, Poland

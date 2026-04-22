@@ -1,3 +1,5 @@
+\usepackage{silence}
+\WarningFilter{latex}{Font shape declaration has incorrect series value}
 \usepackage{mathpazo} % default font
 \usepackage[most]{tcolorbox}
 \usepackage{helvet}
@@ -21,7 +23,7 @@
     top=3pt,
     bottom=3pt,
     fontupper=\fontfamily{phv}\selectfont\small\setstretch{1},
-    width=0.85\textwidth,
+    width=\textwidth,
   },
   orangebox/.style={
     colback=lightgraybg,
@@ -35,6 +37,6 @@
     top=3pt,
     bottom=3pt,
     fontupper=\fontfamily{phv}\selectfont\small\setstretch{1},
-    width=0.85\textwidth,
+    width=\textwidth,
   }
 }
