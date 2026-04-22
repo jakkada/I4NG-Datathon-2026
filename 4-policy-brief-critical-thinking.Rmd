@@ -134,11 +134,10 @@ p2 <- ggplot(plot_data, aes(x = label, y = pct, color = pct > 0)) +
 plot(p2)
 ```
 
+Click to see **[an interactive plot for 21 studied factors](https://rawcdn.githack.com/jakkada/I4NG-Datathon-2026/fd1b6cf441be7ba63a5edc4665fa16d0f188ac5a/supl_p3_interactive.html)**.
+
 \small This work is licensed under CC BY 4.0. To view a copy of this license, visit [creativecommons.org/licenses/by/4.0](https://creativecommons.org/licenses/by/4.0/)
 
-\begin{center}
-\includegraphics[width=24mm]{by.png}
-\end{center}
 ```{r supl-plot, message=FALSE}
 library(plotly)
 
