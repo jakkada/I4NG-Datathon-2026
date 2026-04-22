@@ -310,7 +310,7 @@ Recommendation 3:
 
 ## The Importance of Country Context
 
-All previous results hold regardless of country context. Nevertheless, countries differ significantly in their support for critical thinking, media and democracy education. \textbf{In Hungary the likelihood of support is 73\% lower, in Czechia 72\% lower, and in Poland and Portugal 71\% lower than in Austria, the reference country.}
+All previous results hold regardless of country context. Nevertheless, countries differ significantly in their support for critical thinking, media and democracy education. \textcolor{exactorange}{\textbf{In Hungary the likelihood of support is 73\% lower, in Czechia 72\% lower, and in Poland and Portugal 71\% lower than in Austria}}, the reference country.
 
 ### Analytical note
 
