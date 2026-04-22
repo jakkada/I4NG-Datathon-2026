@@ -24,7 +24,7 @@ Full policy brief is [available here](https://github.com/jakkada/I4NG-Datathon-2
 
 ## Interactive visualisation
 
-An interactive plot covering all 21 studied predictors, including country effects [is available](https://rawcdn.githack.com/jakkada/I4NG-Datathon-2026/fd1b6cf441be7ba63a5edc4665fa16d0f188ac5a/supl_p3_interactive.html).
+An interactive plot covering all 21 studied predictors, including country effects [is available](https://raw.githack.com/jakkada/I4NG-Datathon-2026/main/supl_p3_interactive.html).
 
 ## Data sources
 
