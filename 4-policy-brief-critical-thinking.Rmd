@@ -139,7 +139,7 @@ plot(p2)
 \begin{center}
 \includegraphics[width=24mm]{by.png}
 \end{center}
-```{r supl-plot message=FALSE}
+```{r supl-plot, message=FALSE}
 library(plotly)
 
 lbl_full <- c(
