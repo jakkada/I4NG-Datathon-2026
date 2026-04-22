@@ -1,0 +1,302 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{mathpazo} % default font
+\usepackage[most]{tcolorbox}
+\usepackage{helvet}
+\usepackage{setspace} % for line spacing
+
+% Define exact colors
+\definecolor{lightgraybg}{rgb}{0.98, 0.98, 0.98}
+\definecolor{exactgreen}{rgb}{0.4, 0.76, 0.65} % #66C2A5
+\definecolor{exactorange}{rgb}{0.99, 0.55, 0.38} % #FC8D62
+
+\tcbset{
+  greenbox/.style={
+    colback=lightgraybg,
+    colframe=exactgreen,
+    boxrule=0.3mm,
+    arc=3mm,
+    auto outer arc,
+    boxsep=2pt,
+    left=3pt,
+    right=3pt,
+    top=3pt,
+    bottom=3pt,
+    fontupper=\fontfamily{phv}\selectfont\small\setstretch{1},
+    width=0.85\textwidth,
+  },
+  orangebox/.style={
+    colback=lightgraybg,
+    colframe=exactorange,
+    boxrule=0.3mm,
+    arc=3mm,
+    auto outer arc,
+    boxsep=2pt,
+    left=3pt,
+    right=3pt,
+    top=3pt,
+    bottom=3pt,
+    fontupper=\fontfamily{phv}\selectfont\small\setstretch{1},
+    width=0.85\textwidth,
+  }
+}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+´´´\{r setup, include=FALSE\} knitr::opts\_chunk\$set(echo = FALSE)
+
+source(``1-load-data.R'') source(``2-preparation.R'')
+source(``3-modeling.R'')
+
+library(RColorBrewer) library(sjPlot) ´´´
+
+\section{Policy brief: Critical Thinking, Media, and Democracy in an Age
+of Unchecked Technological
+Development}\label{policy-brief-critical-thinking-media-and-democracy-in-an-age-of-unchecked-technological-development}
+
+\textit{Document created 2026-04-22}
+
+\subsection{Education against Technological
+Intrusion}\label{education-against-technological-intrusion}
+
+The ever-accelerating technological development brings convenience and
+entertainment, but it also creates new avenues for exploitation and
+manipulation. It may threaten democracy through the spread of unchecked,
+misleading, and AI-driven information on the internet, especially on
+social media. As technology is part of everyday life, it cannot simply
+be rejected or ignored; it needs to be addressed through education so
+that people can use it competently and understand its limitations and
+impact on society.
+
+\begin{center}
+\begin{tcolorbox}[orangebox]
+This brief seeks to answer the following questions:
+
+\begin{enumerate}
+  \item What influences Europeans' view that \textbf{critical thinking, media, and democracy should be taught more in compulsory education} in a time of rapid technological development?
+  \item What \textbf{policy recommendations can be formulated} to encourage this view?
+\end{enumerate}
+\end{tcolorbox}
+\end{center}
+
+\subsection{The Demand for Civic
+Education}\label{the-demand-for-civic-education}
+
+\begin{flushleft}
+In the CRONOS3 survey, Europeans from 11 countries were asked \textit{"Which topics would you like to see being taught more in compulsory education?"}. They could choose up to 3 answers from a list of 6 categories, one of which was \textbf{"Critical thinking, media and democracy"}. \textcolor{exactgreen}{\textbf{Across participating countries, as many as 73\% of Austrians}} and \textcolor{exactorange}{\textbf{as few as 31\% of Hungarians}} selected this option. We analyzed 21 factors related to STEM education, modern technology use, and demography to understand what drives this support.
+\end{flushleft}
+
+\subsection{Factors of Support for Critical Thinking, Media and
+Democracy
+Education}\label{factors-of-support-for-critical-thinking-media-and-democracy-education}
+
+´´´\{r logit-plot, fig.height=3.5, message=FALSE\}
+
+non\_sig\_MFIN \textless- c( ``factor(CTR)Belgium'',
+``factor(CTR)Czechia'', ``factor(CTR)Finland'', ``factor(CTR)France'',
+``factor(CTR)United Kingdom'', ``factor(CTR)Hungary'',
+``factor(CTR)Iceland'', ``factor(CTR)Poland'', ``factor(CTR)Portugal'',
+``factor(CTR)Slovenia'', ``GND'', ``AGE'', ``HIN'', ``UNA'', ``SML'',
+``SMP'', ``SMM'', ``SMU'', ``SMF'', ``AUD'', ``ADA'', ``AIR'' )
+
+lbl\_MFIN \textless- c( EDY = ``Years of education\ncompleted'', SMS =
+``Scrolls social media\nat least daily'', SMR = ``Reacts to social
+media\nat least daily'', DTP = ``Wants more: Digital\ntools \&
+programming'', MAS = ``Wants more: Maths\nand sciences'', CTA =
+``Expects negative societal\nchange from technology'', STR = ``Trust in
+scientists'', GTR = ``General trust\nin others'' )
+
+p1 \textless- plot\_model( MFIN, show.values = T, value.offset = 0.4,
+colors = ``Set2'', rm.terms = non\_sig\_MFIN, sort.est = T, axis.labels
+= ``\,``, axis.lim = c(0.3, 2.2), title =''\,'' ) + labs( subtitle =
+``Expecting negative societal change from technology and reacting to
+social media\nare the strongest positive drivers; preferring more STEM
+education is associated\nwith lower support for critical thinking, media
+and democracy education.'', caption = ``Source: Own elaboration based on
+CRONOS3 and ESS10-11 survey data.\nDots represent odds ratio values;
+lines indicate the uncertainty of the results.'' ) + theme\_minimal() +
+geom\_hline(yintercept = 1, linetype = ``dashed'', color = ``darkgray'',
+alpha = 0.6) + annotate(``text'', x = 3.8, y = 0.85, label = ``Odds
+Ratio of 1 = no effect'', color = ``darkgray'', alpha = 0.6) +
+annotate(``text'', x = 0.7, y = 0.55, label = ``Below 1 = negative
+effect'', color = ``\#66C2A5'', alpha = 0.6) + annotate(``text'', x =
+4.5, y = 2.1, label = ``Above 1 = positive effect'', color =
+``\#FC8D62'', alpha = 0.6) + scale\_x\_discrete(labels = lbl\_MFIN)
+
+plot(p1) ´´´
+
+\textasciitilde This work is licensed under CC BY 4.0. To view a copy of
+this license, visit
+\href{https://creativecommons.org/licenses/by/4.0/}{creativecommons.org/licenses/by/4.0}\textasciitilde{}
+
+\begin{center}
+\includegraphics[width=44mm]{by.png}
+\end{center}
+
+\subsection{Value of Normative
+Orientations}\label{value-of-normative-orientations}
+
+The most impactful factor is education:
+\textbf{with every completed year the likelihood of supporting more critical thinking, media and democracy education increases by 7\%}.
+A person who finishes high school is thus over 80\% more likely to see
+the value of such education than a person with no formal education.
+Education, which itself requires critical thinking, facilitates support
+for even more training of this kind.
+
+Next are trust in scientists and general trust in others, which increase
+the likelihood of valuing this type of education by respectively
+\textbf{13\% and 11\% per each step up}. Most striking, however, is the
+effect of views about the changes technology will bring to society.
+\textbf{Those who expect them to be negative are 67\% more likely to support an increase in critical thinking, media and democracy education}.
+Given that many factors reflecting technical competence proved
+non-significant, it is normative orientation --- shaped by attitude to
+technology, trust, and education --- that matters most.
+
+\begin{center}
+\begin{tcolorbox}[greenbox]
+Recommendation 1:
+
+\textbf{Involve authorities from expert and scientific communities in debates on technology and its direct and indirect impact on everyday life, including both positive and negative examples (e.g. increased convenience, but also dependence).}
+\end{tcolorbox}
+\end{center}
+
+\subsection{STEM Education Does Not Go Along with Critical Thinking,
+Media and
+Democracy}\label{stem-education-does-not-go-along-with-critical-thinking-media-and-democracy}
+
+The most surprising results indicate that respondents who would like to
+see more \textbf{"Digital tools and programming"} and
+\textbf{"Maths and sciences"} in compulsory education are also
+respectively \textbf{49\% and 35\% less likely} to support increased
+critical thinking, media and democracy education. Respondents appear to
+perceive STEM and civic-oriented education as competing paths. This may
+render people pursuing more technically focused education less critical
+towards technology's impact on society.
+
+\begin{center}
+\begin{tcolorbox}[orangebox]
+Recommendation 2:
+
+\textbf{Introduce in STEM education curricula more critical thinking and civic-oriented training to raise awareness of social responsibility related to technology development. Introduce technology-focused elements in civic-education curricula to increase understanding of its impacts and limitations.}
+\end{tcolorbox}
+\end{center}
+
+\subsection{Engagement with Social Media
+Matters}\label{engagement-with-social-media-matters}
+
+Scrolling through social media feeds at least once a day
+\textbf{decreases by 25\%} support for increased critical thinking,
+media and democracy education. By contrast, reacting to social media
+content (e.g.~commenting) at least once a day
+\textbf{increases it by 44\%}. Engaging with and indirectly contributing
+to social media raises awareness of the need for critical thinking and
+civic competencies, while simple passive consumption of its content
+decreases it.
+
+\begin{center}
+\begin{tcolorbox}[greenbox]
+Recommendation 3:
+
+\textbf{Access to social media should be limited and/or controlled among the youngest and relaxed over time, following training in how to safely and responsibly engage with it.}
+\end{tcolorbox}
+\end{center}
+
+\subsection{The Importance of Country
+Context}\label{the-importance-of-country-context}
+
+All previous results hold regardless of country context. Nevertheless,
+all countries differ significantly in their support for critical
+thinking, media and democracy education compared to the reference
+country --- Austria. In each country, support for this type of education
+is less likely to occur.
+\textbf{In Hungary the likelihood of support is 73\% lower, in Czechia 72\% lower, and in Poland and Portugal 71\% lower than in Austria.}
+This indicates the importance of national context, such as the quality
+and direction of debate about democracy, technology, politics, and civic
+education.
+
+\subsubsection{Analytical note}\label{analytical-note}
+
+\begin{flushleft}
+\footnotesize
+
+We studied 21 factors of support for critical thinking, media and democracy education. Factors with no meaningful impact included: gender, age, household income, internet use frequency, posting on social media, social media attitudes, intentional digital avoidance, and ability to recognize AI-generated content.
+
+Open data from CRONOS3 Wave 1 (\url{https://doi.org/10.21338/cronos3-w1}), ESS10 (\url{https://doi.org/10.21338/ess10e03_2}), ESS10sc (\url{https://doi.org/10.21338/ess10sce03_1}), and ESS11 (\url{https://doi.org/10.21338/ess11e03_0}) represent countries: Austria, Belgium, Czechia, Finland, France, Hungary, Iceland, Poland, Portugal, Slovenia, and the United Kingdom. A total unweighted sample of \(n = 4{,}906\) was used in the analysis.
+
+\href{https://github.com/zremek/I4NG-Hackathon-2025/tree/main/supplementary_tables}{Supplementary tables} and GNU R code to reproduce our analysis are openly available at: \url{https://github.com/zremek/I4NG-Hackathon-2025}
+\normalsize
+\end{flushleft}
+
+\textasciitilde{}\textbf{Authors}: Jakub Adamski,
+\href{mailto:jakub.adamski@uni.lodz.pl}{\nolinkurl{jakub.adamski@uni.lodz.pl}}
+Remigiusz Żulicki,
+\href{mailto:remigiusz.zulicki@uni.lodz.pl}{\nolinkurl{remigiusz.zulicki@uni.lodz.pl}}\textasciitilde{}
+
+\textasciitilde{}\href{https://www.eksoc.uni.lodz.pl/en/about-the-faculty/get-to-know-eksoc}{Faculty
+of Economics and Sociology}, University of Lodz, Poland\textasciitilde{}
+
+\end{document}

@@ -1,0 +1,40 @@
+\usepackage{mathpazo} % default font
+\usepackage[most]{tcolorbox}
+\usepackage{helvet}
+\usepackage{setspace} % for line spacing
+
+% Define exact colors
+\definecolor{lightgraybg}{rgb}{0.98, 0.98, 0.98}
+\definecolor{exactgreen}{rgb}{0.4, 0.76, 0.65} % #66C2A5
+\definecolor{exactorange}{rgb}{0.99, 0.55, 0.38} % #FC8D62
+
+\tcbset{
+  greenbox/.style={
+    colback=lightgraybg,
+    colframe=exactgreen,
+    boxrule=0.3mm,
+    arc=3mm,
+    auto outer arc,
+    boxsep=2pt,
+    left=3pt,
+    right=3pt,
+    top=3pt,
+    bottom=3pt,
+    fontupper=\fontfamily{phv}\selectfont\small\setstretch{1},
+    width=0.85\textwidth,
+  },
+  orangebox/.style={
+    colback=lightgraybg,
+    colframe=exactorange,
+    boxrule=0.3mm,
+    arc=3mm,
+    auto outer arc,
+    boxsep=2pt,
+    left=3pt,
+    right=3pt,
+    top=3pt,
+    bottom=3pt,
+    fontupper=\fontfamily{phv}\selectfont\small\setstretch{1},
+    width=0.85\textwidth,
+  }
+}

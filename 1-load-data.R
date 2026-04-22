@@ -55,4 +55,4 @@ var_labels <- data.frame(
   stringsAsFactors = FALSE
 )
 
-View(var_labels)
+# View(var_labels)
